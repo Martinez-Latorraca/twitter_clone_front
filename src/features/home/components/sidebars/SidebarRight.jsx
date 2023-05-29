@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import "./sidebars.css";
 
 function SidebarRight() {

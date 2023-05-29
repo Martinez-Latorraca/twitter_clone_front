@@ -1,6 +1,6 @@
 import SidebarLeft from "../components/sidebars/SidebarLeft";
 import SidebarRight from "../components/sidebars/SidebarRight";
-import Feed from "../components/feed/Feed";
+import Feed from "./feed/Feed";
 
 function Home() {
   return (

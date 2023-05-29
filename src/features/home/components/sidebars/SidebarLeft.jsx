@@ -1,5 +1,8 @@
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 import "./sidebars.css";
-import { Link } from "react-router-dom";
+import LogoutBtn from "../../../auth/components/logoutBtn";
 
 function SidebarLeft() {
   return (
@@ -36,14 +39,7 @@ function SidebarLeft() {
         <span>Tweet</span>
       </a>
 
-      <a className="nav-btn btn-logout disable-text-btn" href="/logout">
-        <img
-          src="/src/assets/twitter-icons/icons/logout.png"
-          alt="Logo de salida, presiona para cerrar tu sesión"
-          className="me-2"
-        />
-        <span>Logout</span>
-      </a>
+      <LogoutBtn></LogoutBtn>
     </nav>
   );
 }
