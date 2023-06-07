@@ -1,10 +1,8 @@
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-
 import "./sidebars.css";
 import LogoutBtn from "../../../auth/components/logoutBtn";
 
-function SidebarLeft() {
+function SidebarLeft({ user }) {
+  console.log(user._id);
   return (
     <nav className="sidebar-left">
       <a href="/" className="mt-1 nav-btn">
@@ -21,7 +19,7 @@ function SidebarLeft() {
         />
         <span> Home</span>
       </a>
-      <a href="/users/<%=user.username %>" className="nav-btn disable-text-btn">
+      <a href={`/users/${user._id}`} className="nav-btn disable-text-btn">
         <img
           src="/src/assets/twitter-icons/icons/profile.svg"
           alt="Icono de perfil, presiona para ir a tu perfil"

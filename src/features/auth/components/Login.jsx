@@ -1,40 +1,53 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { setUser, clearUser } from "../userSlice";
+import { useDispatch } from "react-redux";
+import { setUserCredentials } from "../userSlice";
 
 import "./login.css";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const [user, setUser] = useState();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handlerSubmit = () => {
+  const handlerSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-      const getUserCredentials = async () => {
-        const response = await axios.post(
-          `http://localhost:3000/login?email=${email}&password=${password}`
-        );
-        dispatch(setUser(response.data));
-      };
-
-      getUserCredentials();
-      navigate("/");
+      const response = await axios({
+        method: "POST",
+        url: `http://localhost:3000/login`,
+        data: {
+          email: email,
+          password: password,
+        },
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      dispatch(setUserCredentials(response.data));
+      setUser(response.data);
     } catch (error) {
       console.log(error.response);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      console.log(user.token);
+      navigate("/");
+    }
+  }, [user]);
 
   return (
     <div className="container">
       <div className="row">
         <div className="d-none d-md-block d-lg-block col-md-6 col-lg-8 text-white rounded-start"></div>
         <div className="col-12 col-md-6 col-lg-4 d-flex align-items-center justify-content-center">
-          <form className="w-100 p-3">
+          <form className="w-100 p-3" onSubmit={handlerSubmit}>
             <h1>Login</h1>
             <small>Ready to start using Twitter?</small>
             <div className="form my-3">
@@ -58,10 +71,8 @@ function Login() {
             </div>
             <div className="d-grid my-3">
               <button
-                id="logInButton"
-                className="btn rounded-pill btn-fluid text-white mb-5"
+                className="btn rounded-pill btn-fluid text-white mb-5 twitter-blue"
                 type="submit"
-                onClick={handlerSubmit}
               >
                 Login
               </button>

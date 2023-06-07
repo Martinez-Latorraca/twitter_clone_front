@@ -1,14 +1,25 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./features/auth/userSlice";
+import storage from "redux-persist/lib/storage";
+import { persistStore, persistReducer } from "redux-persist";
+import thunk from "redux-thunk";
 
-
+const persistConfig = {
+  key: "root",
+  storage,
+};
+const persistedReducer = persistReducer(persistConfig, userReducer);
 
 const store = configureStore({
   reducer: {
-    user: userReducer,
+    user: persistedReducer,
   },
+  devTools: process.env.NODE_ENV !== "production",
   // Agrega middlewares si es necesario
   // middleware: (getDefaultMiddleware) => [...getDefaultMiddleware()],
+  middleware: [thunk],
 });
 
-export default store;
+const persistor = persistStore(store);
+
+export { store, persistor };

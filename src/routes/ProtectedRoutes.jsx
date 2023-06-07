@@ -1,4 +1,4 @@
-import { Navigate, Route } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "../features/home/components/Home";
 
 function ProtectedRoutes() {
@@ -6,7 +6,7 @@ function ProtectedRoutes() {
   const token = localStorage.getItem("token");
 
   return token ? (
-    <Route path="/" element={Home} />
+    <Route path="*" element={<Home />} />
   ) : (
     <Navigate to="/login" replace />
   );

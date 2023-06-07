@@ -21,3 +21,7 @@
   --black: #0a090c;
   --gray: #647788;
 }
+
+#root {
+  min-height: 100vh;
+}

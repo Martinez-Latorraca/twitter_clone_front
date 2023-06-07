@@ -2,22 +2,29 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { clearUser } from "../userSlice.js";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function LogoutBtn() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [response, setResponse] = useState();
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   const handlerLogout = async () => {
-    console.log("loged out");
-    localStorage.removeItem("token");
+    const res = await axios.get("http://localhost:3000/logout", {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    setResponse(res);
     dispatch(clearUser());
-    const res = await axios.get("http://localhost:3000/logout");
     navigate("/login");
   };
 
   return (
     <button
-      onClick={() => handlerLogout()}
+      onClick={handlerLogout}
       className="nav-btn btn-logout disable-text-btn"
     >
       <img
